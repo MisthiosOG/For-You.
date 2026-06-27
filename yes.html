@@ -1,0 +1,227 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+  <title>For You 💗</title>
+  <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate">
+  <meta http-equiv="Pragma" content="no-cache">
+  <meta http-equiv="Expires" content="0">
+  <style>
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+
+    body {
+      opacity: 0;
+      transition: opacity 0.5s ease;
+      background-color: #FEF9F0;
+      min-height: 100vh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-family: 'Georgia', 'Times New Roman', serif;
+      padding: 24px;
+    }
+
+    .container {
+      width: 100%;
+      max-width: 420px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      position: relative;
+    }
+
+    /* bg floating squares */
+    .bg-shapes {
+      position: fixed;
+      inset: 0;
+      pointer-events: none;
+      z-index: 0;
+      overflow: hidden;
+    }
+    .bg-shapes .sq {
+      position: absolute;
+      display: block;
+      border: 2.5px solid rgba(255,20,147,0.2);
+      border-radius: 6px;
+      background: rgba(255,20,147,0.08);
+    }
+    .bg-shapes .sq1 { width: 60px; height: 60px; top: 4%; left: 5%; transform: rotate(15deg); animation: floatA 6s ease-in-out infinite; border-color: rgba(255,20,147,0.25); }
+    .bg-shapes .sq2 { width: 28px; height: 28px; top: 30%; left: 3%; transform: rotate(45deg); animation: floatB 8s ease-in-out infinite; background: rgba(255,20,147,0.06); }
+    .bg-shapes .sq3 { width: 80px; height: 80px; top: -5%; right: 2%; transform: rotate(-12deg); animation: floatA 7s ease-in-out infinite; border-color: rgba(255,20,147,0.18); }
+    .bg-shapes .sq4 { width: 36px; height: 36px; bottom: 10%; right: 5%; transform: rotate(28deg); animation: floatB 9s ease-in-out infinite; background: rgba(255,20,147,0.07); border-color: rgba(255,20,147,0.22); }
+    .bg-shapes .sq5 { width: 22px; height: 22px; top: 50%; left: 2%; transform: rotate(60deg); animation: floatA 10s ease-in-out infinite; background: rgba(255,105,180,0.08); border-color: rgba(255,105,180,0.2); }
+    .bg-shapes .sq6 { width: 40px; height: 40px; top: 60%; right: 3%; transform: rotate(-22deg); animation: floatB 7s ease-in-out infinite; border-color: rgba(255,105,180,0.18); background: rgba(255,105,180,0.06); }
+    @keyframes floatA { 0%,100% { transform: translateY(0) rotate(20deg); } 50% { transform: translateY(-12px) rotate(25deg); } }
+    @keyframes floatB { 0%,100% { transform: translateY(0) rotate(45deg); } 50% { transform: translateY(10px) rotate(35deg); } }
+
+    .box {
+      width: 100%;
+      max-width: 400px;
+      max-height: 90vh;
+      padding: 36px 28px;
+      background-color: #ffffff;
+      border-radius: 14px;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.04), 0 8px 24px rgba(0,0,0,0.06);
+      text-align: left;
+      position: relative;
+      overflow-y: auto;
+      overflow-x: hidden;
+      z-index: 1;
+    }
+
+    .box::-webkit-scrollbar {
+      width: 4px;
+    }
+    .box::-webkit-scrollbar-track {
+      background: transparent;
+    }
+    .box::-webkit-scrollbar-thumb {
+      background: rgba(255,20,147,0.2);
+      border-radius: 4px;
+    }
+
+    .corner-decor {
+      position: absolute;
+      pointer-events: none;
+      z-index: 1;
+    }
+    .corner-decor img {
+      width: 100%; height: 100%;
+      object-fit: contain;
+      display: block;
+    }
+    .corner-tl { width: 72px; height: 72px; top: -24px; left: -12px; }
+    .corner-br { width: 44px; height: 44px; bottom: -16px; right: -8px; }
+    .corner-tr { width: 32px; height: 32px; top: -12px; right: 8px; }
+
+    .letter {
+      padding: 0 4px;
+    }
+
+    .letter .heart-top {
+      text-align: center;
+      margin-bottom: 20px;
+    }
+
+    .letter .heart-top img {
+      width: 48px;
+      height: 48px;
+      object-fit: contain;
+    }
+
+    .letter .greeting {
+      font-size: 15px;
+      color: #FF1493;
+      font-weight: 600;
+      margin-bottom: 16px;
+      font-family: system-ui, -apple-system, 'Segoe UI', Roboto, sans-serif;
+    }
+
+    .letter p {
+      font-size: 14px;
+      line-height: 1.8;
+      color: #3a3a3a;
+      margin-bottom: 14px;
+      text-align: justify;
+    }
+
+    .letter p:last-of-type {
+      margin-bottom: 8px;
+    }
+
+    .letter .sign {
+      margin-top: 20px;
+      padding-top: 16px;
+      border-top: 1px solid rgba(255,20,147,0.1);
+      text-align: right;
+    }
+
+    .letter .sign .name {
+      font-size: 15px;
+      font-weight: 700;
+      color: #FF1493;
+      font-family: system-ui, -apple-system, 'Segoe UI', Roboto, sans-serif;
+    }
+
+    .letter .sign .nick {
+      font-size: 12px;
+      color: #aaa;
+      margin-top: 2px;
+      font-family: system-ui, -apple-system, 'Segoe UI', Roboto, sans-serif;
+    }
+
+    .footer {
+      position: fixed;
+      bottom: 12px;
+      left: 0;
+      width: 100%;
+      text-align: center;
+      font-size: 11px;
+      color: rgba(255,20,147,0.2);
+      z-index: 0;
+      pointer-events: none;
+      font-family: system-ui, -apple-system, 'Segoe UI', Roboto, sans-serif;
+      letter-spacing: 0.3px;
+    }
+  </style>
+</head>
+<body>
+  <div class="bg-shapes">
+    <span class="sq sq1"></span>
+    <span class="sq sq2"></span>
+    <span class="sq sq3"></span>
+    <span class="sq sq4"></span>
+    <span class="sq sq5"></span>
+    <span class="sq sq6"></span>
+  </div>
+  <div class="footer">© 2026 iPowfu — made with 🗿</div>
+  <div class="container">
+    <div class="box">
+      <div class="corner-decor corner-tl">
+        <img src="image/love.png" alt="love">
+      </div>
+      <div class="corner-decor corner-br">
+        <img src="image/love.png" alt="love">
+      </div>
+      <div class="corner-decor corner-tr">
+        <img src="image/love.png" alt="love">
+      </div>
+
+      <div class="letter">
+        <div class="heart-top">
+          <img src="image/love.png" alt="love">
+        </div>
+
+        <div class="greeting">For you,</div>
+
+        <p>
+          Aku bahagia banget bisa nemu cewek kayak kamu — pinter, baik, sederhana, dan nggak banyak menuntut. Aku suka banget setiap kali aku cerita, kamu selalu jadi pendengar yang baik, bahkan sering kasih tanggapan atau saran yang bikin aku mikir.
+        </p>
+
+        <p>
+          Aku suka suara kamu, ketawa kamu, sampai tingkah 'tengil' kamu yang selalu bilang kamu lebih hebat dari aku (padahal kenyataannya aku jauh di atas kamu, let's be honest!). Aku juga suka kebiasaan kamu yang selalu cerita setiap selesai beraktivitas. Rasanya nyaman banget karena kita punya banyak kesamaan yang bikin kita nyambung. Makasih ya, karena kamu, malem-malemku nggak pernah kerasa sepi lagi sejak kita rutin call-an.
+        </p>
+
+        <p>
+          Aku kagum sama cara pikir kamu yang kritis dan seru buat diajak diskusi. Apalagi waktu kita masih main GAG, kamu mau nemenin aku. Makasih udah jadi cewek yang pinter sekaligus 'berguna' buat aku; kamu sabar banget bantuin aku nyelesain kerjaan yang kadang nggak jelas, bantu simpen pet, sampai nemenin aku pas lagi pusing bikin script ESP weight egg.
+        </p>
+
+        <p>
+          Jujur, ini pertama kalinya aku ketemu cewek yang nggak bikin aku ngerasa keganggu atau repot. Sebenernya masih banyak banget hal spesial tentang kamu, tapi kalau ditulis semua, mungkin web ini nggak bakal kelar-kelar sampai 100 tahun ke depan. I love you so much more.
+        </p>
+
+        <div class="sign">
+          <div class="name">— iPowfu</div>
+          <div class="nick">(si cowok jago)</div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <script>
+    window.addEventListener('DOMContentLoaded', () => {
+      document.body.style.opacity = '1';
+    });
+  </script>
+</body>
+</html>

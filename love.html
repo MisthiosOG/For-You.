@@ -1,0 +1,132 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+  <title>💗</title>
+  <style>
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+
+    body {
+      background-color: #FEF9F0;
+      min-height: 100vh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-family: system-ui, -apple-system, 'Segoe UI', Roboto, sans-serif;
+      padding: 24px;
+      cursor: pointer;
+      user-select: none;
+    }
+
+    .container {
+      width: 100%;
+      max-width: 420px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .heart-wrapper {
+      text-align: center;
+      animation: pulse 2s ease-in-out infinite;
+    }
+
+    .heart-wrapper img {
+      width: 120px;
+      height: 120px;
+      object-fit: contain;
+      display: block;
+      margin: 0 auto;
+      filter: drop-shadow(0 4px 16px rgba(255,20,147,0.2));
+      transition: transform 0.3s ease;
+    }
+
+    .heart-wrapper img:active {
+      transform: scale(0.92);
+    }
+
+    .heart-wrapper .hint {
+      margin-top: 20px;
+      font-size: 13px;
+      color: rgba(255,20,147,0.5);
+      animation: fadeHint 2s ease-in-out infinite;
+    }
+
+    @keyframes pulse {
+      0%, 100% { transform: scale(1); }
+      50% { transform: scale(1.05); }
+    }
+
+    @keyframes fadeHint {
+      0%, 100% { opacity: 0.3; }
+      50% { opacity: 0.8; }
+    }
+
+    /* love image bg kecil floating */
+    .bg-loves {
+      position: fixed;
+      inset: 0;
+      pointer-events: none;
+      z-index: 0;
+      overflow: hidden;
+    }
+    .bg-loves .mini-love {
+      position: absolute;
+      opacity: 0.06;
+    }
+    .bg-loves .mini-love img {
+      width: 100%;
+      height: 100%;
+      object-fit: contain;
+    }
+    .bg-loves .ml1 { width: 40px; height: 40px; top: 10%; left: 8%; transform: rotate(-10deg); }
+    .bg-loves .ml2 { width: 28px; height: 28px; bottom: 20%; left: 12%; transform: rotate(20deg); }
+    .bg-loves .ml3 { width: 50px; height: 50px; top: 5%; right: 6%; transform: rotate(15deg); }
+    .bg-loves .ml4 { width: 30px; height: 30px; bottom: 10%; right: 10%; transform: rotate(-20deg); }
+    .bg-loves .ml5 { width: 20px; height: 20px; top: 45%; left: 3%; transform: rotate(30deg); }
+    .bg-loves .ml6 { width: 35px; height: 35px; top: 50%; right: 4%; transform: rotate(-15deg); }
+
+    .footer {
+      position: fixed;
+      bottom: 12px;
+      left: 0;
+      width: 100%;
+      text-align: center;
+      font-size: 11px;
+      color: rgba(255,20,147,0.2);
+      z-index: 0;
+      pointer-events: none;
+      font-family: system-ui, -apple-system, 'Segoe UI', Roboto, sans-serif;
+      letter-spacing: 0.3px;
+    }
+  </style>
+</head>
+<body onclick="openYes()">
+  <div class="bg-loves">
+    <span class="mini-love ml1"><img src="image/love.png" alt=""></span>
+    <span class="mini-love ml2"><img src="image/love.png" alt=""></span>
+    <span class="mini-love ml3"><img src="image/love.png" alt=""></span>
+    <span class="mini-love ml4"><img src="image/love.png" alt=""></span>
+    <span class="mini-love ml5"><img src="image/love.png" alt=""></span>
+    <span class="mini-love ml6"><img src="image/love.png" alt=""></span>
+  </div>
+  <div class="footer">© 2026 iPowfu — made with 🗿</div>
+  <div class="container">
+    <div class="heart-wrapper">
+      <img src="image/love.png" alt="love">
+      <div class="hint">💗 tap anywhere</div>
+    </div>
+  </div>
+
+  <script>
+    function openYes() {
+      document.body.style.transition = 'opacity 0.4s ease';
+      document.body.style.opacity = '0';
+      setTimeout(() => {
+        window.location.href = 'yes.html';
+      }, 350);
+    }
+  </script>
+</body>
+</html>

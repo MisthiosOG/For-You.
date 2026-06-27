@@ -1,0 +1,652 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+  <title>Kotak Tengah</title>
+  <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate">
+  <meta http-equiv="Pragma" content="no-cache">
+  <meta http-equiv="Expires" content="0">
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      background-color: #FEF9F0;
+      min-height: 100vh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-family: system-ui, -apple-system, 'Segoe UI', Roboto, sans-serif;
+      padding: 24px;
+    }
+
+    .container {
+      width: 100%;
+      max-width: 420px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      position: relative;
+    }
+
+    /* bg */
+    .bg-shapes {
+      position: fixed;
+      inset: 0;
+      pointer-events: none;
+      z-index: 0;
+      overflow: hidden;
+    }
+    .bg-shapes .sq {
+      position: absolute;
+      display: block;
+      border: 2.5px solid rgba(255,20,147,0.2);
+      border-radius: 6px;
+      background: rgba(255,20,147,0.08);
+    }
+    .bg-shapes .sq1 { width: 60px; height: 60px; top: 4%; left: 5%; transform: rotate(15deg); animation: floatA 6s ease-in-out infinite; border-color: rgba(255,20,147,0.25); }
+    .bg-shapes .sq2 { width: 28px; height: 28px; top: 30%; left: 3%; transform: rotate(45deg); animation: floatB 8s ease-in-out infinite; background: rgba(255,20,147,0.06); }
+    .bg-shapes .sq3 { width: 80px; height: 80px; top: -5%; right: 2%; transform: rotate(-12deg); animation: floatA 7s ease-in-out infinite; border-color: rgba(255,20,147,0.18); }
+    .bg-shapes .sq4 { width: 36px; height: 36px; bottom: 10%; right: 5%; transform: rotate(28deg); animation: floatB 9s ease-in-out infinite; background: rgba(255,20,147,0.07); border-color: rgba(255,20,147,0.22); }
+    .bg-shapes .sq5 { width: 22px; height: 22px; top: 50%; left: 2%; transform: rotate(60deg); animation: floatA 10s ease-in-out infinite; background: rgba(255,105,180,0.08); border-color: rgba(255,105,180,0.2); }
+    .bg-shapes .sq6 { width: 40px; height: 40px; top: 60%; right: 3%; transform: rotate(-22deg); animation: floatB 7s ease-in-out infinite; border-color: rgba(255,105,180,0.18); background: rgba(255,105,180,0.06); }
+    @keyframes floatA { 0%,100% { transform: translateY(0) rotate(20deg); } 50% { transform: translateY(-12px) rotate(25deg); } }
+    @keyframes floatB { 0%,100% { transform: translateY(0) rotate(45deg); } 50% { transform: translateY(10px) rotate(35deg); } }
+
+    .box {
+      width: 100%;
+      max-width: 340px;
+      padding: 48px 32px;
+      background-color: #ffffff;
+      border-radius: 12px;
+      box-shadow:
+        0 2px 8px rgba(0,0,0,0.04),
+        0 8px 24px rgba(0,0,0,0.06);
+      text-align: center;
+      position: relative;
+      overflow: visible;
+    }
+
+    .corner-decor {
+      position: absolute;
+      pointer-events: none;
+      z-index: 1;
+    }
+
+    .corner-decor img {
+      width: 100%;
+      height: 100%;
+      object-fit: contain;
+      display: block;
+    }
+
+    .corner-tl {
+      width: 88px;
+      height: 88px;
+      top: -42px;
+      left: -24px;
+    }
+
+    .corner-br {
+      width: 56px;
+      height: 56px;
+      bottom: -28px;
+      right: -16px;
+    }
+
+    .corner-tr {
+      width: 40px;
+      height: 40px;
+      top: -20px;
+      right: 4px;
+    }
+
+    .box h1 {
+      font-size: 18px;
+      font-weight: 600;
+      color: #5C4033;
+      margin-bottom: 8px;
+    }
+
+    .box p {
+      font-size: 14px;
+      color: #8B7355;
+      line-height: 1.5;
+      margin-bottom: 24px;
+    }
+
+    .buttons {
+      display: flex;
+      gap: 12px;
+      justify-content: center;
+    }
+
+    .btn {
+      flex: 1;
+      max-width: 120px;
+      padding: 12px 0;
+      border: none;
+      border-radius: 10px;
+      font-size: 15px;
+      font-weight: 600;
+      cursor: pointer;
+      transition: all 0.2s ease;
+    }
+
+    .btn-yes {
+      background-color: #FF1493;
+      color: white;
+    }
+
+    .btn-yes:hover {
+      background-color: #E0137E;
+      transform: scale(1.02);
+    }
+
+    .btn-no {
+      background-color: #FF69B4;
+      color: white;
+      border: none;
+    }
+
+    .btn-no:hover {
+      background-color: #E55DA0;
+      transform: scale(1.02);
+    }
+
+    /* ========== MODAL GOOGLE PLAY STYLE ========== */
+
+    .modal-overlay {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: rgba(0,0,0,0.5);
+      z-index: 1000;
+      display: none;
+      align-items: center;
+      justify-content: center;
+      padding: 16px;
+      animation: fadeIn 0.25s ease;
+    }
+
+    .modal-overlay.show {
+      display: flex;
+    }
+
+    @keyframes fadeIn {
+      from { opacity: 0; }
+      to { opacity: 1; }
+    }
+
+    .modal-card {
+      background: #ffffff;
+      width: 100%;
+      max-width: 380px;
+      border-radius: 20px;
+      overflow: hidden;
+      box-shadow: 0 20px 60px rgba(0,0,0,0.2);
+      animation: slideUp 0.3s ease;
+    }
+
+    @keyframes slideUp {
+      from {
+        opacity: 0;
+        transform: translateY(30px) scale(0.96);
+      }
+      to {
+        opacity: 1;
+        transform: translateY(0) scale(1);
+      }
+    }
+
+    /* Header */
+    .modal-header {
+      background: linear-gradient(135deg, #FF1493, #FF69B4);
+      padding: 24px 20px 20px;
+      text-align: center;
+      color: white;
+    }
+
+    .modal-header .play-icon {
+      width: 48px;
+      height: 48px;
+      background: white;
+      border-radius: 50%;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      margin-bottom: 10px;
+    }
+
+    .modal-header .play-icon svg {
+      width: 28px;
+      height: 28px;
+    }
+
+    .modal-header h2 {
+      font-size: 14px;
+      font-weight: 500;
+      opacity: 0.9;
+      letter-spacing: 0.3px;
+    }
+
+    .modal-header .amount {
+      font-size: 32px;
+      font-weight: 700;
+      margin-top: 4px;
+      letter-spacing: -0.5px;
+    }
+
+    .modal-header .amount-sub {
+      font-size: 12px;
+      opacity: 0.8;
+      margin-top: 2px;
+    }
+
+    /* Body */
+    .modal-body {
+      padding: 20px;
+    }
+
+    .modal-body h3 {
+      font-size: 13px;
+      font-weight: 600;
+      color: #333;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+      margin-bottom: 12px;
+    }
+
+    .payment-method {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      padding: 14px 12px;
+      border: 2px solid #e8e8e8;
+      border-radius: 12px;
+      margin-bottom: 10px;
+      cursor: pointer;
+      transition: all 0.2s ease;
+    }
+
+    .payment-method:hover {
+      border-color: #FF1493;
+      background: #FFF0F7;
+    }
+
+    .payment-method.selected {
+      border-color: #FF1493;
+      background: #FFF0F7;
+    }
+
+    .payment-method .radio {
+      width: 20px;
+      height: 20px;
+      border: 2px solid #ccc;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-shrink: 0;
+      transition: all 0.2s ease;
+    }
+
+    .payment-method.selected .radio {
+      border-color: #FF1493;
+    }
+
+    .payment-method.selected .radio::after {
+      content: '';
+      width: 10px;
+      height: 10px;
+      background: #FF1493;
+      border-radius: 50%;
+    }
+
+  .pm-icon svg {
+    width: 24px;
+    height: 24px;
+    fill: none;
+    stroke: #666;
+    stroke-width: 1.8;
+    stroke-linecap: round;
+    stroke-linejoin: round;
+  }
+
+    .payment-method .pm-icon {
+      width: 32px;
+      height: 32px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-shrink: 0;
+    }
+
+    .payment-method .pm-info {
+      flex: 1;
+    }
+
+    .payment-method .pm-info .pm-name {
+      font-size: 14px;
+      font-weight: 500;
+      color: #222;
+    }
+
+    .payment-method .pm-info .pm-desc {
+      font-size: 11px;
+      color: #999;
+      margin-top: 1px;
+    }
+
+    /* Footer */
+    .modal-footer {
+      padding: 0 20px 20px;
+    }
+
+    .btn-lanjutkan {
+      width: 100%;
+      padding: 14px 0;
+      background: #FF1493;
+      color: white;
+      border: none;
+      border-radius: 12px;
+      font-size: 15px;
+      font-weight: 700;
+      cursor: pointer;
+      transition: all 0.2s ease;
+      letter-spacing: 1px;
+    }
+
+    .btn-lanjutkan:hover {
+      background: #E0137E;
+      transform: scale(1.01);
+    }
+
+    .btn-batal {
+      display: block;
+      width: 100%;
+      text-align: center;
+      padding: 12px 0 4px;
+      background: none;
+      border: none;
+      color: #999;
+      font-size: 13px;
+      cursor: pointer;
+      transition: color 0.2s ease;
+    }
+
+    .btn-batal:hover {
+      color: #666;
+    }
+
+    /* divider */
+    .divider {
+      height: 1px;
+      background: #f0f0f0;
+      margin: 8px 20px;
+    }
+
+    /* Loading Spinner */
+    .spinner {
+      width: 48px;
+      height: 48px;
+      border: 4px solid #f0e0e8;
+      border-top-color: #FF1493;
+      border-radius: 50%;
+      animation: spin 0.9s linear infinite;
+      margin: 0 auto;
+    }
+
+    @keyframes spin {
+      to { transform: rotate(360deg); }
+    }
+
+    .footer {
+      position: fixed;
+      bottom: 12px;
+      left: 0;
+      width: 100%;
+      text-align: center;
+      font-size: 11px;
+      color: rgba(255,20,147,0.2);
+      z-index: 0;
+      pointer-events: none;
+      font-family: system-ui, -apple-system, 'Segoe UI', Roboto, sans-serif;
+      letter-spacing: 0.3px;
+    }
+  </style>
+</head>
+<body>
+  <div class="bg-shapes">
+    <span class="sq sq1"></span>
+    <span class="sq sq2"></span>
+    <span class="sq sq3"></span>
+    <span class="sq sq4"></span>
+    <span class="sq sq5"></span>
+    <span class="sq sq6"></span>
+  </div>
+  <div class="footer">© 2026 iPowfu</div>
+  <div class="container">
+    <div class="box">
+      <h1>☁️ Hey You!</h1>
+      <p>Do you love me?<br>I know you do, so just click yes! 🫶</p>
+      <div class="corner-decor corner-tl">
+        <img src="image/love.png" alt="love">
+      </div>
+      <div class="corner-decor corner-br">
+        <img src="image/love.png" alt="love">
+      </div>
+      <div class="corner-decor corner-tr">
+        <img src="image/love.png" alt="love">
+      </div>
+      <div class="buttons">
+        <button class="btn btn-yes" onclick="window.open('love.html', '_blank')">YES</button>
+        <button class="btn btn-no" onclick="showTopUpModal()">NO</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- ========== MODAL TOP UP ========== -->
+  <div class="modal-overlay" id="modalTopUp" onclick="closeModalOutside(event)">
+    <div class="modal-card">
+      <!-- Header -->
+      <div class="modal-header">
+        <div class="play-icon">
+          <svg viewBox="0 0 24 24" fill="#FF1493">
+            <path d="M3 3v18l18-9L3 3z"/>
+          </svg>
+        </div>
+        <h2>Google Play Balance</h2>
+        <div class="amount">Rp50.000.000</div>
+        <div class="amount-sub">Top Up Saldo Akun</div>
+      </div>
+
+      <!-- Body -->
+      <div class="modal-body">
+        <h3>Metode Pembayaran</h3>
+
+        <div class="payment-method selected" onclick="selectPayment(this)">
+          <div class="radio"></div>
+          <div class="pm-icon"><svg viewBox="0 0 24 24"><rect x="2" y="4" width="20" height="16" rx="2"/><path d="M2 10h20"/></svg></div>
+          <div class="pm-info">
+            <div class="pm-name">Google Play Balance</div>
+            <div class="pm-desc">Saldo Google Play Anda</div>
+          </div>
+        </div>
+
+        <div class="payment-method" onclick="selectPayment(this)">
+          <div class="radio"></div>
+          <div class="pm-icon"><svg viewBox="0 0 24 24"><rect x="1" y="4" width="22" height="16" rx="2"/><line x1="6" y1="12" x2="10" y2="12"/></svg></div>
+          <div class="pm-info">
+            <div class="pm-name">Kartu Kredit/Debit</div>
+            <div class="pm-desc">Visa, Mastercard, BCA, Mandiri</div>
+          </div>
+        </div>
+
+        <div class="payment-method" onclick="selectPayment(this)">
+          <div class="radio"></div>
+          <div class="pm-icon"><svg viewBox="0 0 24 24"><rect x="5" y="2" width="14" height="20" rx="2"/><line x1="12" y1="18" x2="12" y2="18"/></svg></div>
+          <div class="pm-info">
+            <div class="pm-name">Mobile Banking</div>
+            <div class="pm-desc">BCA, Mandiri, BRI, BNI, GoPay</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="divider"></div>
+
+      <!-- Footer -->
+      <div class="modal-footer">
+        <button class="btn-lanjutkan" onclick="lanjutkan()">LANJUTKAN</button>
+        <button class="btn-batal" onclick="closeTopUpModal()">Batal</button>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    let loadingInterval;
+
+    function showTopUpModal() {
+      document.getElementById('modalTopUp').classList.add('show');
+      resetModal();
+    }
+
+    function closeTopUpModal() {
+      document.getElementById('modalTopUp').classList.remove('show');
+      clearInterval(loadingInterval);
+    }
+
+    function closeModalOutside(e) {
+      if (e.target === e.currentTarget) {
+        closeTopUpModal();
+      }
+    }
+
+    function selectPayment(el) {
+      document.querySelectorAll('.payment-method').forEach(m => m.classList.remove('selected'));
+      el.classList.add('selected');
+    }
+
+    function resetModal() {
+      document.querySelector('.btn-lanjutkan').style.display = 'block';
+      document.querySelector('.btn-batal').style.display = 'block';
+      document.querySelector('.modal-body').innerHTML = `
+        <h3>Metode Pembayaran</h3>
+        <div class="payment-method selected" onclick="selectPayment(this)">
+          <div class="radio"></div>
+          <div class="pm-icon"><svg viewBox="0 0 24 24"><rect x="2" y="4" width="20" height="16" rx="2"/><path d="M2 10h20"/></svg></div>
+          <div class="pm-info">
+            <div class="pm-name">Google Play Balance</div>
+            <div class="pm-desc">Saldo Google Play Anda</div>
+          </div>
+        </div>
+        <div class="payment-method" onclick="selectPayment(this)">
+          <div class="radio"></div>
+          <div class="pm-icon"><svg viewBox="0 0 24 24"><rect x="1" y="4" width="22" height="16" rx="2"/><line x1="6" y1="12" x2="10" y2="12"/></svg></div>
+          <div class="pm-info">
+            <div class="pm-name">Kartu Kredit/Debit</div>
+            <div class="pm-desc">Visa, Mastercard, BCA, Mandiri</div>
+          </div>
+        </div>
+        <div class="payment-method" onclick="selectPayment(this)">
+          <div class="radio"></div>
+          <div class="pm-icon"><svg viewBox="0 0 24 24"><rect x="5" y="2" width="14" height="20" rx="2"/><line x1="12" y1="18" x2="12" y2="18"/></svg></div>
+          <div class="pm-info">
+            <div class="pm-name">Mobile Banking</div>
+            <div class="pm-desc">BCA, Mandiri, BRI, BNI, GoPay</div>
+          </div>
+        </div>
+      `;
+      document.querySelector('.modal-header h2').textContent = 'Google Play Balance';
+      document.querySelector('.btn-lanjutkan').onclick = mulaiLoading;
+    }
+
+    function mulaiLoading() {
+      // Sembunyikan tombol
+      document.querySelector('.btn-lanjutkan').style.display = 'none';
+      document.querySelector('.btn-batal').style.display = 'none';
+
+      // Ganti body jadi loading
+      document.querySelector('.modal-body').innerHTML = `
+        <div style="text-align:center;padding:32px 0 24px;">
+          <div class="spinner"></div>
+          <div style="font-size:14px;color:#666;margin-top:20px;font-weight:500;">
+            Memproses Pembayaran
+          </div>
+          <div style="font-size:12px;color:#999;margin-top:6px;">
+            Rp50.000.000
+          </div>
+          <div style="font-size:11px;color:#bbb;margin-top:16px;">
+            Harap tunggu...
+          </div>
+        </div>
+      `;
+      document.querySelector('.divider').style.display = 'none';
+      // munculin tombol cancel
+      document.querySelector('.modal-footer').innerHTML = `
+        <button class="btn-batal" onclick="showNotif()" style="display:block;width:100%;text-align:center;padding:12px 0;background:none;border:none;color:#999;font-size:13px;cursor:pointer;">Cancel</button>
+      `;
+    }
+
+    function showNotif() {
+      closeTopUpModal();
+      const notif = document.createElement('div');
+      notif.style.cssText = `
+        position:fixed;top:20px;right:20px;z-index:9999;
+        background:#FF1493;color:white;
+        padding:0;border-radius:14px;
+        font-size:14px;font-weight:500;
+        font-family:system-ui,-apple-system,'Segoe UI',Roboto,sans-serif;
+        box-shadow:0 4px 24px rgba(255,20,147,0.25);
+        opacity:0;transform:translateX(60px);
+        transition:all 0.4s cubic-bezier(0.34, 1.56, 0.64, 1);
+        max-width:280px;width:100%;
+        pointer-events:none;
+        overflow:hidden;
+      `;
+      notif.innerHTML = `
+        <div style="padding:14px 20px;display:flex;align-items:center;gap:12px;">
+          <div style="width:32px;height:32px;background:rgba(255,255,255,0.2);border-radius:50%;display:flex;align-items:center;justify-content:center;flex-shrink:0;">
+            <svg viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="width:18px;height:18px;">
+              <path d="M18 8A6 6 0 0 0 6 8c0 7-3 9-3 9h18s-3-2-3-9"/>
+              <path d="M13.73 21a2 2 0 0 1-3.46 0"/>
+            </svg>
+          </div>
+          <div style="flex:1;min-width:0;">
+            <div style="font-size:11px;opacity:0.8;font-weight:400;letter-spacing:0.3px;">GOOGLE PLAY</div>
+            <div style="font-size:13px;font-weight:500;margin-top:1px;">Yahahaha dek dek</div>
+          </div>
+        </div>
+        <div style="height:3px;background:rgba(255,255,255,0.25);width:100%;position:relative;">
+          <div id="progress-bar" style="height:100%;background:white;width:100%;border-radius:0 2px 2px 0;position:absolute;left:0;top:0;"></div>
+        </div>
+      `;
+      document.body.appendChild(notif);
+      requestAnimationFrame(() => {
+        notif.style.opacity = '1';
+        notif.style.transform = 'translateX(0)';
+        // shrink progress bar
+        notif.querySelector('#progress-bar').style.transition = 'width 2.4s linear';
+        requestAnimationFrame(() => {
+          notif.querySelector('#progress-bar').style.width = '0%';
+        });
+      });
+      setTimeout(() => {
+        notif.style.opacity = '0';
+        notif.style.transform = 'translateX(60px)';
+        setTimeout(() => notif.remove(), 500);
+      }, 2500);
+    }
+
+    function lanjutkan() {
+      mulaiLoading();
+    }
+  </script>
+</body>
+</html>
